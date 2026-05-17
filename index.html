@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Learner Error Analysis Viewer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <h1>Learner Error Analysis</h1>
+          <p>Source-side tokenization comparisons for 1,079 benchmark sentences.</p>
+        </div>
+
+        <section class="method-note">
+          <div><strong>D</strong><span>Direct segmentation</span></div>
+          <div><strong>P1</strong><span>Identical-character projection</span></div>
+          <div><strong>P2</strong><span>Similarity-based projection</span></div>
+        </section>
+
+        <section class="filter-block">
+          <label for="searchBox">Search</label>
+          <input id="searchBox" type="search" placeholder="sentence_id, source, target, token..." />
+        </section>
+
+        <section class="filter-block">
+          <h2>Method Status</h2>
+          <div class="status-row">
+            <span>D</span>
+            <label class="radio-chip"><input type="radio" name="statusD" value="any" checked /> Any</label>
+            <label class="radio-chip"><input type="radio" name="statusD" value="good" /> Good</label>
+            <label class="radio-chip"><input type="radio" name="statusD" value="bad" /> Bad</label>
+          </div>
+          <div class="status-row">
+            <span>P1</span>
+            <label class="radio-chip"><input type="radio" name="statusPid" value="any" checked /> Any</label>
+            <label class="radio-chip"><input type="radio" name="statusPid" value="good" /> Good</label>
+            <label class="radio-chip"><input type="radio" name="statusPid" value="bad" /> Bad</label>
+          </div>
+          <div class="status-row">
+            <span>P2</span>
+            <label class="radio-chip"><input type="radio" name="statusP2step" value="any" checked /> Any</label>
+            <label class="radio-chip"><input type="radio" name="statusP2step" value="good" /> Good</label>
+            <label class="radio-chip"><input type="radio" name="statusP2step" value="bad" /> Bad</label>
+          </div>
+        </section>
+
+        <section class="filter-block">
+          <h2>Quick Combinations</h2>
+          <label class="check"><input type="checkbox" name="pattern" value="B B G" /> B B G</label>
+          <label class="check"><input type="checkbox" name="pattern" value="B G G" /> B G G</label>
+          <label class="check"><input type="checkbox" name="pattern" value="G B G" /> G B G</label>
+          <label class="check"><input type="checkbox" name="pattern" value="G B B" /> G B B</label>
+          <label class="check"><input type="checkbox" name="pattern" value="B B B" /> B B B</label>
+          <label class="check"><input type="checkbox" name="pattern" value="G G B" /> G G B</label>
+        </section>
+
+        <section class="filter-block">
+          <h2>Error Type</h2>
+          <label class="check"><input type="checkbox" name="errorType" value="over" /> over</label>
+          <label class="check"><input type="checkbox" name="errorType" value="under" /> under</label>
+          <label class="check"><input type="checkbox" name="errorType" value="drift" /> drift</label>
+        </section>
+
+        <section class="filter-block">
+          <h2>Special Filters</h2>
+          <div class="inline-filter-row">
+            <label for="shortLength">Source length ≤</label>
+            <select id="shortLength" class="compact-select">
+              <option value="any">Any</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="40">40</option>
+              <option value="50">50</option>
+            </select>
+          </div>
+          <div class="inline-filter-row wide">
+            <span>2+ errors in selected Bad method(s)</span>
+          </div>
+          <div class="choice-row">
+            <label class="radio-chip"><input type="radio" name="twoPlusErrors" value="any" checked /> Any</label>
+            <label class="radio-chip"><input type="radio" name="twoPlusErrors" value="yes" /> Yes</label>
+            <label class="radio-chip"><input type="radio" name="twoPlusErrors" value="no" /> No</label>
+          </div>
+          <label class="check"><input id="p2Fix" type="checkbox" /> P2 fixes D or P1</label>
+        </section>
+
+        <section class="filter-block">
+          <h2>Display</h2>
+          <label for="pageSize">Cards shown</label>
+          <select id="pageSize">
+            <option value="25">25</option>
+            <option value="50" selected>50</option>
+            <option value="100">100</option>
+            <option value="1079">All</option>
+          </select>
+          <button id="resetButton" type="button">Reset filters</button>
+        </section>
+
+        <section class="legend">
+          <span><i class="dot good"></i>token span matches gold</span>
+          <span><i class="dot bad"></i>token span differs from gold</span>
+          <span><i class="dot gold"></i>gold token</span>
+        </section>
+      </aside>
+
+      <section class="content">
+        <section class="hero">
+          <div>
+            <p class="eyebrow">Supplementary Viewer</p>
+            <h2>Chinese Word Boundary Projection Error Analysis</h2>
+            <p>
+              Browse the learner benchmark sentence by sentence. Green tokens match the source-side
+              gold span; red tokens indicate local tokenization mismatches.
+            </p>
+          </div>
+          <div id="summaryStats" class="summary-stats" aria-label="Dataset summary"></div>
+        </section>
+
+        <header class="toolbar">
+          <div>
+            <div id="resultCount" class="result-count">Loading...</div>
+            <div id="activeFilters" class="active-filters"></div>
+          </div>
+          <button id="showMoreButton" type="button">Show more</button>
+        </header>
+        <div id="cards" class="cards"></div>
+      </section>
+    </main>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
