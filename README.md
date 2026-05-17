@@ -7,7 +7,7 @@ This package contains the reorganized learner benchmark error analysis materials
 Open:
 
 ```text
-viewer/index.html
+index.html
 ```
 
 The viewer contains all 1,079 learner benchmark sentences and shows:
