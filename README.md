@@ -35,7 +35,7 @@ The viewer supports filters for:
 - whether the relevant method has two or more local errors. If one or more methods are set to `Bad`, this filter applies to those bad-selected methods; otherwise it applies to any method.
 - P2 fixes D or P1
 
-No server is required. Open `viewer/index.html` directly in a browser.
+No server is required. Open the GitHub Pages link, or open `index.html` directly in a browser.
 
 ## Detailed Data
 
